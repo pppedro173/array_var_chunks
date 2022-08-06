@@ -26,29 +26,38 @@ function php_compat_array_var_chunks($input, $sizes, $preserve_keys = false)
         return;
     }
 
+    $i = 0;
     foreach ($sizes as $size) {
-            $sizes[] = (int)$size;
-
-            if ($size <= 0) {
+          if ($size <= 0) {
                 user_error('array_var_chunks() Sizes values expected to be greater than 0',
                 E_USER_WARNING);
                 return;
           }
+            $sizes[(int)$i] = (int)$size;
+            $i++;
     }
-
     $chunks = array();
     $i = 0;
-    $j = 0;
+    $counter = 0;
 
     if ($preserve_keys !== false) {
         foreach ($input as $key => $value) {
-            $chunks[(int)($i++ / $sizes[$j])][$key] = $value;
-            if($i % $size[$j] === 0) $j++;
+            if($counter === $sizes[$i]){ 
+              $i++;
+              $counter = 0;
+            }
+            $chunks[(int)$i][$key] = $value;
+            $counter++;
         }
     } else {
         foreach ($input as $value) {
-            $chunks[(int)($i++ / $sizes[$j])][] = $value;
-            if($i % $size[$j] === 0) $j++;
+            if($counter === $sizes[$i]){ 
+              $i++;
+              $counter = 0;
+            }
+            echo $i;
+            $chunks[(int)$i][] = $value;
+            $counter++;
         }
     }
 
@@ -63,3 +72,11 @@ if (!function_exists('array_var_chunks')) {
         return php_compat_array_var_chunks($input, $sizes, $preserve_keys);
     }
 }
+
+$arrayData = [1,2,3,4,5,6];
+
+$sizes = [2,4];
+
+$result = array_var_chunks($arrayData,$sizes);
+
+print_r($result);
