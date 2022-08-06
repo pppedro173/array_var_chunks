@@ -3,14 +3,7 @@
  * Replace array_chunk()
  *
  * @category    PHP
- * @package     PHP_Compat
- * @license     LGPL - http://www.gnu.org/licenses/lgpl.html
- * @copyright   2004-2007 Pedro Soares <pass@php.net>
- * @link        http://php.net/function.array_var_chunks
- * @author      Pedro Soares <pass@php.net>
- * @version     $Revision$
- * @since       PHP 8.2.0
- * @require     PHP 8.0.0 (user_error)
+ * @author      Pedro Soares
  */
 function php_compat_array_var_chunks($input, $sizes, $preserve_keys = false)
 {
@@ -77,11 +70,3 @@ if (!function_exists('array_var_chunks')) {
         return php_compat_array_var_chunks($input, $sizes, $preserve_keys);
     }
 }
-
-$arrayData = [];
-
-$sizes = [];
-
-$result = array_var_chunks($arrayData,$sizes);
-
-print_r($result);
