@@ -26,6 +26,12 @@ function php_compat_array_var_chunks($input, $sizes, $preserve_keys = false)
         return;
     }
 
+    if (empty($sizes)) {
+        user_error('array_var_chunks() expects parameter 2 to not be empty, ' .
+            gettype($sizes) . ' given', E_USER_WARNING);
+        return;
+    }
+
     $i = 0;
     foreach ($sizes as $size) {
           if ($size <= 0) {
@@ -33,8 +39,8 @@ function php_compat_array_var_chunks($input, $sizes, $preserve_keys = false)
                 E_USER_WARNING);
                 return;
           }
-            $sizes[(int)$i] = (int)$size;
-            $i++;
+          $sizes[(int)$i] = (int)$size;
+          $i++;
     }
     $chunks = array();
     $i = 0;
@@ -55,7 +61,6 @@ function php_compat_array_var_chunks($input, $sizes, $preserve_keys = false)
               $i++;
               $counter = 0;
             }
-            echo $i;
             $chunks[(int)$i][] = $value;
             $counter++;
         }
@@ -73,9 +78,9 @@ if (!function_exists('array_var_chunks')) {
     }
 }
 
-$arrayData = [1,2,3,4,5,6];
+$arrayData = [];
 
-$sizes = [2,4];
+$sizes = [];
 
 $result = array_var_chunks($arrayData,$sizes);
 
